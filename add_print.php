@@ -18,10 +18,10 @@
                 {
                     $errors[] = 'Please enter the print \'s name!';
                 }
-                if(is_uploaded_file($_FILES['image']['tmp_name']))
+                if(is_uploaded_file($_FILES['image']['name']))
                 {
-                    $temp = '../../uploads/' . md5($_FILES['tmp_name']['name']);
-                    if(move_uploaded_file($_FILES['image']['tmp_name'], $temp))
+                    $temp = '../../uploads/' . md5($_FILES['name']['name']);
+                    if(move_uploaded_file($_FILES['image']['name'], $temp))
                     {
                         echo '<p>The file has been uploaded!</p>';
                         $i = $_FILES['image']['name'];
@@ -29,7 +29,7 @@
                     else 
                     {
                         $errors[] = 'The file could not be moved.';
-                        $temp = $_FILES['image']['tmp_name'];
+                        $temp = $_FILES['image']['name'];
                     }
                 }
                 else 
@@ -49,7 +49,7 @@
                 $d = (!empty($_POST['description'])) ? trim($_POST['description']) : NULL;
                 if(isset($_POST['artist']) && filter_var($_POST['artist'], FILTER_VALIDATE_INT, array('min_range' => 1)))
                 {
-                      $a = $_POST['artst'];
+                      $a = $_POST['artist'];
                 }
                 else 
                 {
@@ -122,8 +122,17 @@
 			 }
 			 mysqli_close($connect);
 			?>
-			</select></p>    
-		</form>
+			</select></p>
+			<p><b>Price:</b><input type="text" name="price" size="10" maxlength="10
+			value="<?php if(isset($_POST['price'])) echo $_POST['price']; ?>" /><small>
+			Do not include the dollar sign or comas.</small></p>
+			<p><b>Size:</b><input type="text" name="size" size="30" maxlength="10"
+			value="<?php if(isset($_POST['size'])) echo htmlspecialchars($_POST['size']);?>"/> </p>
+			<p><b>Description:</b><textarea name="description" rows="5" cols="40">
+			<?php if(isset($_POST['description'])) echo $_POST['description']; ?></textarea></p>   
 		</fieldset>
+		<div align="center"><input type="submit" value="Submit"></div>	 
+		</form>
+		
 	</body>
 </html>
